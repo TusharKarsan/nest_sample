@@ -7,11 +7,15 @@ import {
   Param,
   Delete,
   Query,
+  ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 
 import { NinjasService } from './ninjas.service';
+import { BeltGuard } from 'src/belt/belt.guard';
 
 @Controller('ninjas')
+@UseGuards(BeltGuard)
 export class NinjasController {
   constructor(private readonly ninjasService: NinjasService) {}
 
@@ -21,7 +25,7 @@ export class NinjasController {
   }
 
   @Get(':id')
-  getOneNinja(@Param('id') id: string) {
+  getOneNinja(@Param('id', ParseIntPipe) id: number) {
     return {
       id,
     };
